@@ -17,7 +17,8 @@ Após a instalação das duas ferramentas, seguir os passos para fazer uso do am
 
       cd bd2-env
 
-      # Crie uma cópia do arquivo .env.example, renomeie essa cópia para .env e reatribua as variáveis como desejar.
+      # Crie uma cópia do arquivo .env.example, renomeie essa cópia para .env 
+      # e reatribua as variáveis como desejar.
 
       (sudo) docker-compose up
 
