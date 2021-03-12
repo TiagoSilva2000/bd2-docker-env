@@ -1,0 +1,41 @@
+version: "3.8"
+
+services: 
+  postgres:
+    container_name: postgres-bd2
+    image: postgres:12-alpine
+    expose: 
+      - "${DB_PORT}"
+    volumes: 
+      - "bd2-volume:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks: 
+      - pg-pgadmin-bd2
+    restart: unless-stopped
+
+  pg-admin:
+    container_name: pgadmin-bd2
+    image: dpage/pgadmin4:4.10
+    ports: 
+      - ${PGADMIN_LISTEN_PORT}:${PGADMIN_REVERSE_EXPOSE_PORT}
+    volumes: 
+      - "bd2-volume:/var/lib/pgadmin"
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    depends_on: 
+      - postgres
+    networks: 
+      - pg-pgadmin-bd2
+    restart: unless-stopped
+
+networks: 
+  pg-pgadmin-bd2:
+    driver: bridge
+
+volumes:
+  bd2-volume:
+    driver: "local"
